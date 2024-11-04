@@ -1,4 +1,6 @@
 {
+  "name": "pw-ui",
+  "author": "EduardoProfe666",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@9.11.0",
