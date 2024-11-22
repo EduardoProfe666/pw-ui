@@ -1,4 +1,4 @@
-  <template>
+<template>
   <div>
     <v-card>
       <v-card-title class="d-flex align-center pa-4">

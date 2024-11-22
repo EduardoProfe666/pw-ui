@@ -1,6 +1,1 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://pw-ui.onrender.com/sitemap.xml
-
 
