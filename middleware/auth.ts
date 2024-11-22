@@ -1,8 +1,11 @@
-export default defineNuxtRouteMiddleware(() => {
-  const { loggedIn } = useUserSession()
+export default defineNuxtRouteMiddleware((to) => {
+  const authStore = useAuthStore()
+  
+  if (!authStore.isAuthenticated && to.path !== '/login') {
+    return navigateTo('/login')
+  }
 
-  if (!loggedIn.value) {
-    Notify.error('You need to log in to view this page')
-    return navigateTo('/')
+  if (authStore.isStudent && !['/', '/profile'].includes(to.path)) {
+    return navigateTo('/403')
   }
 })

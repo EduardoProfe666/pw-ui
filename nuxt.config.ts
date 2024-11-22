@@ -1,75 +1,37 @@
-import { aliases } from 'vuetify/iconsets/mdi'
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  ssr: false,
+
   modules: [
+    '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
-    '@vueuse/nuxt',
-    'vuetify-nuxt-module',
-    'nuxt-auth-utils',
-    'nuxt-echarts',
-    '@nuxt/icon',
-    '@nuxt/eslint',
-    '@nuxt/test-utils/module',
+    '@vueuse/nuxt'
   ],
-  css: ['~/assets/styles/index.css'],
-  experimental: { typedPages: true },
-  typescript: { shim: false, strict: true },
-  vue: { propsDestructure: true },
-  vueuse: { ssrHandlers: true },
-  vuetify: {
-    moduleOptions: {
-      ssrClientHints: {
-        viewportSize: true,
-        prefersColorScheme: true,
-        prefersColorSchemeOptions: {},
-        reloadOnFirstRequest: true,
-      },
-    },
+
+  css: [
+    'vuetify/styles',
+    '@mdi/font/css/materialdesignicons.css'
+  ],
+
+  build: {
+    transpile: ['vuetify']
   },
-  icon: {
-    clientBundle: {
-      icons: Object.values(aliases).map((v) =>
-        (v as string).replace(/^mdi-/, 'mdi:'),
-      ),
-      scan: true,
-      // scan all components in the project and include icons
-      // scan: true,
-    },
-    customCollections: [
-      {
-        prefix: 'custom',
-        dir: './assets/icons',
-      },
-    ],
+
+  app: {
+    head: {
+      title: 'Student Management System',
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+      ]
+    }
   },
-  echarts: {
-    charts: ['LineChart', 'BarChart', 'PieChart', 'RadarChart'],
-    renderer: 'svg',
-    components: [
-      'DataZoomComponent',
-      'LegendComponent',
-      'TooltipComponent',
-      'ToolboxComponent',
-      'GridComponent',
-      'TitleComponent',
-      'DatasetComponent',
-      'VisualMapComponent',
-    ],
-  },
-  vite: {
-    build: { sourcemap: false },
-  },
+
   runtimeConfig: {
-    github: {
-      clientId: '',
-      clientSecret: '',
-    },
-    session: {
-      name: 'nuxt-session',
-      password: '',
-    },
+    public: {
+      apiBase: process.env.API_BASE || 'http://localhost:3000'
+    }
   },
-  compatibilityDate: '2024-08-05',
+
+  compatibilityDate: '2024-11-21'
 })

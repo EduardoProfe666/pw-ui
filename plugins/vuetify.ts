@@ -1,29 +1,28 @@
-import type { IconProps } from 'vuetify'
-import { Icon } from '#components'
-import type { VDataTable } from 'vuetify/components'
-import { useStorage } from '@vueuse/core'
-import { aliases } from 'vuetify/iconsets/mdi'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
 
-export type DataTableHeaders = VDataTable['$props']['headers']
-
-export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.hook('vuetify:configuration', ({ vuetifyOptions }) => {
-    vuetifyOptions.icons = {
-      defaultSet: 'nuxtIcon',
-      sets: {
-        nuxtIcon: {
-          component: ({ icon, tag, ...rest }: IconProps) =>
-            h(tag, rest, [h(Icon, { name: aliases[icon as string] ?? icon })]),
-        },
-      },
-      aliases,
-    }
-    const primary = useStorage('theme-primary', '#1697f6').value
-    vuetifyOptions.theme = {
+export default defineNuxtPlugin((app) => {
+  const vuetify = createVuetify({
+    components,
+    directives,
+    theme: {
+      defaultTheme: 'light',
       themes: {
-        light: { colors: { primary } },
-        dark: { colors: { primary } },
-      },
+        light: {
+          colors: {
+            primary: '#1867C0',
+            secondary: '#5CBBF6',
+            accent: '#4CAF50',
+            error: '#FF5252',
+            info: '#2196F3',
+            success: '#4CAF50',
+            warning: '#FFC107'
+          }
+        }
+      }
     }
   })
+
+  app.vueApp.use(vuetify)
 })
