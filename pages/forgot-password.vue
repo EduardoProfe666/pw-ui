@@ -6,7 +6,7 @@
           <v-card-title class="text-center py-4">
             <h1 class="text-h5">Olvido de Contraseña</h1>
           </v-card-title>
-          
+
           <v-card-text class="text-center">
             <p class="text-body-1 text-medium-emphasis mb-4">
               Ingresa tu correo a continuación. El sistema te enviará instrucciones para restablecer tu contraseña.
