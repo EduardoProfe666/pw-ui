@@ -6,6 +6,8 @@ export interface GradeRow{
   assessmentId: number;
 
   grade: 2 | 3 | 4 | 5 | null;
+
+  professorNote: string;
 }
 
 export default interface GradesTableOutDto{

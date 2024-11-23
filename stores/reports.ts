@@ -23,19 +23,19 @@ interface RankingTable{
     studentFullName: string;
 
     studentName: string;
+
+    username: string;
 }
 
 interface ReportsState {
     rankingTable: RankingTable[] | null;
     gradesTable: GradesTableOutDto | null;
-    currentUserGradesTable: GradesTableOutDto | null;
 }
 
 export const useReportsStore = defineStore('reports', {
     state: (): ReportsState => ({
         rankingTable: null,
         gradesTable: null,
-        currentUserGradesTable: null,
     }),
 
     actions: {
@@ -62,6 +62,7 @@ export const useReportsStore = defineStore('reports', {
                         position: x.position,
                         studentFullName: student?.fullName || '',
                         studentName: student?.name || '',
+                        username: student?.username || '',
                     })
                 })
                 this.rankingTable = ranking;
@@ -94,24 +95,6 @@ export const useReportsStore = defineStore('reports', {
                 await exportGradesTableById(id);
             } catch (error) {
                 toast.error('Error al exportar la tabla de calificaciones por ID.');
-            }
-        },
-
-        async fetchCurrentUserGradesTable() {
-            const toast = useToast();
-            try {
-                this.currentUserGradesTable = await getGradesTableForCurrentUser();
-            } catch (error) {
-                toast.error('Error al obtener tu tabla de calificaciones.');
-            }
-        },
-
-        async exportCurrentUserGradesTable() {
-            const toast = useToast();
-            try {
-                await exportGradesTableForCurrentUser();
-            } catch (error) {
-                toast.error('Error al exportar tu tabla de calificaciones.');
             }
         },
     },

@@ -16,7 +16,7 @@
                 <div class="text-body-2 text-medium-emphasis">{{ authStore.user?.email || 'admin@admin.admin' }}</div>
               </v-col>
               <v-col cols="6">
-                <div class="text-subtitle-1 font-weight-bold">Fecha Random</div>
+                <div class="text-subtitle-1 font-weight-bold">Fecha de Nacimiento</div>
                 <div class="text-body-2 text-medium-emphasis">{{getRandomDate()}}</div>
               </v-col>
             </v-row>
@@ -32,8 +32,8 @@
           <v-list>
             <v-list-subheader>Opciones de la Cuenta</v-list-subheader>
             <v-list-item to="/profile/settings" prepend-icon="mdi-account-cog" title="Ajustes"></v-list-item>
-            <v-list-item to="/profile/security" prepend-icon="mdi-shield-lock" title="Seguridad (De Bonito)"></v-list-item>
-            <v-list-item to="/profile/notifications" prepend-icon="mdi-bell" title="Notificaciones (De Bonito)"></v-list-item>
+            <v-list-item to="/profile/security" prepend-icon="mdi-shield-lock" title="Seguridad"></v-list-item>
+            <v-list-item to="/profile/notifications" prepend-icon="mdi-bell" title="Notificaciones"></v-list-item>
           </v-list>
         </v-card>
       </v-col>
@@ -41,8 +41,8 @@
       <v-col cols="12" md="8">
         <v-card>
           <v-tabs v-model="activeTab">
-            <v-tab value="overview">Un Por Arribita</v-tab>
-            <v-tab value="activity">Actividad (De Bonito)</v-tab>
+            <v-tab value="overview">Generalidades</v-tab>
+            <v-tab value="activity">Actividad</v-tab>
           </v-tabs>
 
           <v-card-text>
@@ -83,7 +83,7 @@
                   <v-col cols="12" sm="6">
                     <v-card variant="outlined">
                       <v-card-text>
-                        <div class="text-h6 mb-2">Cosas del Estudiante</div>
+                        <div class="text-h6 mb-2">Información Escolar</div>
                         <v-list density="compact">
                           <v-list-item>
                             <template v-slot:prepend>
@@ -152,9 +152,9 @@ let isRepeater = '---';
 let isRecognized = '---';
 
 if(authStore.user?.student){
-  isCarryForward = authStore.user.student.isCarryForward ? 'Yep' : 'Nop';
-  isRepeater = authStore.user.student.isRepeater ? 'Yep' : 'Nop';
-  isRecognized = authStore.user.student.isRecognized ? 'Yep' : 'Nop';
+  isCarryForward = authStore.user.student.isCarryForward ? '✅' : '❌';
+  isRepeater = authStore.user.student.isRepeater ? '✅' : '❌';
+  isRecognized = authStore.user.student.isRecognized ? '✅' : '❌';
 }
 
 const recentActivity = [

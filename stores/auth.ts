@@ -6,9 +6,14 @@ import type UserWithStudentOutDto from '~/services/users/dto/out/user-with-stude
 import {extractClaimsFromToken} from "~/services/utils/jwt.service";
 import type ChangePasswordInDto from "~/services/auth/dto/in/change-password.in.dto";
 import {getStudentById} from "~/services/students/students.service";
+import type {GradeRow} from "~/services/reports/dto/out/grades-table.out.dto";
+import {useToast} from "vue-toastification";
+import {exportGradesTableForCurrentUser, getGradesTableForCurrentUser} from "~/services/reports/reports.service";
 
 interface AuthState {
   user: UserWithStudentOutDto | null;
+  avg: number | null;
+  gradeTable: GradeRow[] | null;
   role: string | null;
   username: string | null,
   token: string | null;
@@ -22,6 +27,8 @@ export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
     user: null,
     role: null,
+    avg: null,
+    gradeTable: null,
     username: null,
     avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
     token: null,
@@ -54,6 +61,9 @@ export const useAuthStore = defineStore('auth', {
         if(this.role !== 'admin'){
           this.user = await getCurrentUser();
           this.avatar = (await getStudentById(this.user.student.id)).avatar;
+          const gt = await getGradesTableForCurrentUser();
+          this.avg = gt.avg;
+          this.gradeTable = gt.gradeTable;
         }
       } catch (error) {
         console.error('Error during login:', error);
@@ -68,7 +78,18 @@ export const useAuthStore = defineStore('auth', {
       this.avatar = null;
       this.isAuthenticated = false;
       this.role = null;
+      this.avg = null;
+      this.gradeTable = null;
       navigateTo('/login');
+    },
+
+    async exportCurrentUserGradesTable() {
+      const toast = useToast();
+      try {
+        await exportGradesTableForCurrentUser();
+      } catch (error) {
+        toast.error('Error al exportar tu tabla de calificaciones.');
+      }
     },
 
     async forgotPassword(email: string) {
