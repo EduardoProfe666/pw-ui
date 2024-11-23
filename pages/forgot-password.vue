@@ -89,7 +89,7 @@ const handleSubmit = async () => {
     await authStore.forgotPassword(email.value)
     success.value = true
   } catch (err) {
-    error.value = 'Falló la solicitud. Por favor, intente más tarde.'
+    error.value = 'Falló la solicitud. Por favor, revisa tu correo e inténtalo más tarde.'
   } finally {
     loading.value = false
   }

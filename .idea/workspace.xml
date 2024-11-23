@@ -5,52 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="80f14e45-b794-4184-ab03-08913acf5a5e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/pages/403.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plugins/piniaPersistedState.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plugins/toast.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/og-image.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/api.axios.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/assessments/assessments.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/assessments/dto/in/assessment.in.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/assessments/dto/out/assessment.out.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/auth/auth.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/auth/dto/in/change-password.in.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/auth/dto/in/forgot-password.in.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/auth/dto/in/login.in.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/auth/dto/in/reset-password.in.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/auth/dto/out/auth.out.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/grades/dto/in/grade.in.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/grades/dto/out/avg-grade.out.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/grades/dto/out/grade-with-assessment.out.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/grades/dto/out/grade.out.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/grades/grades.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/reports/dto/out/grades-table.out.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/reports/dto/out/ranking-table.out.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/reports/reports.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/students/dto/in/student.in.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/students/dto/out/student.out.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/students/students.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/users/dto/in/user-update.in.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/users/dto/in/user.in.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/users/dto/out/user-with-student.out.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/users/dto/out/user.out.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/users/users.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/utils/jwt.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/utils/jwt.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AppNavbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/AppNavbar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/GradeChart.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/GradeStats.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/layouts/default.vue" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/default.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nuxt.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/nuxt.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/forgot-password.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/forgot-password.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/reset-password.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/reset-password.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/students/[id].vue" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/public/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/robots.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/api.axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/api.axios.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/users/dto/out/user-with-student.out.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/dto/out/user-with-student.out.dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/utils/jwt.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/stores/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stores/auth.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -144,7 +109,7 @@
       <workItem from="1730763420737" duration="3414000" />
       <workItem from="1730770865847" duration="2098000" />
       <workItem from="1732221196803" duration="9769000" />
-      <workItem from="1732327298702" duration="12247000" />
+      <workItem from="1732327298702" duration="15948000" />
     </task>
     <servers />
   </component>

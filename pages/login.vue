@@ -10,21 +10,21 @@
           <v-card-text>
             <v-form @submit.prevent="handleLogin">
               <v-text-field
-                v-model="email"
-                label="Nombre de Usuario"
-                prepend-inner-icon="mdi-account"
-                type="text"
-                required
+                  v-model="email"
+                  label="Nombre de Usuario"
+                  prepend-inner-icon="mdi-account"
+                  type="text"
+                  required
               ></v-text-field>
 
               <v-text-field
-                v-model="password"
-                label="Contraseña"
-                prepend-inner-icon="mdi-lock"
-                :type="showPassword ? 'text' : 'password'"
-                :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                @click:append-inner="showPassword = !showPassword"
-                required
+                  v-model="password"
+                  label="Contraseña"
+                  prepend-inner-icon="mdi-lock"
+                  :type="showPassword ? 'text' : 'password'"
+                  :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                  @click:append-inner="showPassword = !showPassword"
+                  required
               ></v-text-field>
 
               <div class="d-flex justify-space-between align-center mt-2">
@@ -35,11 +35,11 @@
               </div>
 
               <v-btn
-                color="primary"
-                block
-                size="large"
-                type="submit"
-                class="mt-6"
+                  color="primary"
+                  block
+                  size="large"
+                  type="submit"
+                  class="mt-6"
               >
                 Ingresar
               </v-btn>
@@ -60,11 +60,13 @@ const password = ref('')
 const showPassword = ref(false)
 
 const handleLogin = async () => {
-  try {
-    await authStore.login(email.value, password.value)
-    router.push('/')
-  } catch (error) {
-    console.error('Login failed:', error)
+  if (email.value && password.value) {
+    try {
+      await authStore.login(email.value, password.value)
+      router.push('/')
+    } catch (error) {
+      console.error('Login failed:', error)
+    }
   }
 }
 </script>

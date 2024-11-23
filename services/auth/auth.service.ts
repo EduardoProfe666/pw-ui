@@ -1,5 +1,3 @@
-// services/auth.service.ts
-import api from "~/services/api.axios";
 import type AuthOutDto from "~/services/auth/dto/out/auth.out.dto";
 import type LoginInDto from "~/services/auth/dto/in/login.in.dto";
 import type ChangePasswordInDto from "~/services/auth/dto/in/change-password.in.dto";
@@ -8,6 +6,7 @@ import type ResetPasswordInDto from "~/services/auth/dto/in/reset-password.in.dt
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification';
 import {useAuthStore} from "~/stores/auth";
+import api from "~/services/api.axios";
 
 const getAuthToken = () => {
     const authStore = useAuthStore();

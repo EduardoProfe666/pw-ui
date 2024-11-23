@@ -1,99 +1,113 @@
-import { defineStore } from 'pinia'
-
-interface User {
-  id: number
-  name: string
-  email: string
-  role: 'admin' | 'student'
-  avatar?: string
-}
+import {defineStore} from 'pinia';
+import {changePassword, forgotPassword, login, resetPassword} from '~/services/auth/auth.service';
+import {getCurrentUser} from '~/services/users/users.service';
+import type LoginInDto from '~/services/auth/dto/in/login.in.dto';
+import type UserWithStudentOutDto from '~/services/users/dto/out/user-with-student.out.dto';
+import {extractClaimsFromToken} from "~/services/utils/jwt.service";
+import type ChangePasswordInDto from "~/services/auth/dto/in/change-password.in.dto";
 
 interface AuthState {
-  user: User | null
-  token: string | null
-  isAuthenticated: boolean
-  resetPasswordEmail: string | null
-  resetPasswordToken: string | null
+  user: UserWithStudentOutDto | null;
+  role: string | null;
+  username: string | null,
+  token: string | null;
+  isAuthenticated: boolean;
+  resetPasswordEmail: string | null;
+  resetPasswordToken: string | null;
 }
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
     user: null,
+    role: null,
+    username: null,
     token: null,
     isAuthenticated: false,
     resetPasswordEmail: null,
-    resetPasswordToken: null
+    resetPasswordToken: null,
   }),
 
   persist: true,
 
   getters: {
-    isAdmin: (state) => state.user?.role === 'admin',
-    isStudent: (state) => state.user?.role === 'student'
+    isAdmin: (state) => state.role === 'admin',
+    isStudent: (state) => state.role === 'student',
   },
 
   actions: {
-    async login(email: string, password: string) {
-      // TODO: Implement actual login logic with API
-      this.user = {
-        id: 1,
-        name: 'John Doe',
-        email,
-        role: 'admin',
-        avatar: 'https://cdn.vuetifyjs.com/images/john.jpg'
+    async login(username: string, password: string) {
+      const loginData: LoginInDto = { username, password };
+      try {
+        const token = await login(loginData);
+        this.token = token.token;
+        this.isAuthenticated = true;
+
+        const claims = extractClaimsFromToken(this.token);
+        if (claims) {
+          this.role = claims.role;
+          this.username = claims.username;
+        }
+
+        if(this.role !== 'admin'){
+          this.user = await getCurrentUser();
+        }
+      } catch (error) {
+        console.error('Error during login:', error);
+        throw error;
       }
-      this.token = 'dummy-token'
-      this.isAuthenticated = true
     },
 
     logout() {
-      this.user = null
-      this.token = null
-      this.isAuthenticated = false
-      navigateTo('/login')
-    },
-
-    async updateProfile(profileData: Partial<User>) {
-      if (this.user) {
-        this.user = { ...this.user, ...profileData }
-      }
+      this.user = null;
+      this.token = null;
+      this.username = null;
+      this.isAuthenticated = false;
+      this.role = null;
+      navigateTo('/login');
     },
 
     async forgotPassword(email: string) {
+      const forgotPasswordData = { email };
       try {
-        // TODO: Implement actual API call
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        this.resetPasswordEmail = email
-        // In a real app, this would send an email with a reset link
-        return true
+        await forgotPassword(forgotPasswordData);
+        this.resetPasswordEmail = email;
+        return true;
       } catch (error) {
-        console.error('Failed to process forgot password:', error)
-        throw error
+        console.error('Failed to process forgot password:', error);
+        throw error;
+      }
+    },
+
+    async changePassword(oldPassword: string, newPassword: string) {
+      const changePasswordData: ChangePasswordInDto = { oldPassword, newPassword };
+      try {
+        await changePassword(changePasswordData);
+        return true;
+      } catch (error) {
+        console.error('Failed to change password:', error);
+        throw error;
       }
     },
 
     async resetPassword(token: string, newPassword: string) {
+      const resetPasswordData = { resetToken: token, newPassword };
       try {
-        // TODO: Implement actual API call
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        this.resetPasswordToken = token
-        // In a real app, this would validate the token and update the password
-        return true
+        await resetPassword(resetPasswordData);
+        this.resetPasswordToken = token;
+        return true;
       } catch (error) {
-        console.error('Failed to reset password:', error)
-        throw error
+        console.error('Failed to reset password:', error);
+        throw error;
       }
     },
 
     async validateResetToken(token: string) {
       try {
-        // TODO: Implement actual API call
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        return true
+        return true;
       } catch (error) {
-        console.error('Invalid or expired reset token:', error)
-        throw error
+        console.error('Invalid or expired reset token:', error);
+        throw error;
       }
-    }
-  }
-})
+    },
+  },
+});
