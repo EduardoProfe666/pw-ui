@@ -15,9 +15,9 @@
       <template v-slot:activator="{ props }">
         <v-btn class="mr-4" v-bind="props">
           <v-avatar size="32" class="mr-2">
-            <v-img :src="authStore.user?.avatar || 'https://cdn.vuetifyjs.com/images/john.jpg'" alt="Avatar"></v-img>
+            <v-img :src="authStore.avatar || 'https://cdn.vuetifyjs.com/images/john.jpg'" alt="Avatar"></v-img>
           </v-avatar>
-          <span class="hidden-sm-and-down">{{ authStore.user?.name }}</span>
+          <span class="hidden-sm-and-down">{{ authStore.user?.student?.name || "Administrador" }}</span>
           <v-icon right>mdi-chevron-down</v-icon>
         </v-btn>
       </template>
@@ -25,10 +25,10 @@
         <v-list-item>
           <template v-slot:prepend>
             <v-avatar size="40">
-              <v-img :src="authStore.user?.avatar || 'https://cdn.vuetifyjs.com/images/john.jpg'" alt="Avatar"></v-img>
+              <v-img :src="authStore.avatar || 'https://cdn.vuetifyjs.com/images/john.jpg'" alt="Avatar"></v-img>
             </v-avatar>
           </template>
-          <v-list-item-title class="font-weight-bold">{{ authStore.user?.name }}</v-list-item-title>
+          <v-list-item-title class="font-weight-bold">{{ authStore.user?.student?.name || "Administrador" }}</v-list-item-title>
           <v-list-item-subtitle>{{ authStore.user?.email || 'admin' }}</v-list-item-subtitle>
         </v-list-item>
         <v-divider></v-divider>
@@ -44,11 +44,11 @@
     <v-list-item>
       <template v-slot:prepend>
         <v-avatar size="40">
-          <v-img :src="authStore.user?.avatar || 'https://cdn.vuetifyjs.com/images/john.jpg'" alt="Avatar"></v-img>
+          <v-img :src="authStore.avatar || 'https://cdn.vuetifyjs.com/images/john.jpg'" alt="Avatar"></v-img>
         </v-avatar>
       </template>
-      <v-list-item-title class="text-h6">{{ authStore.user?.name }}</v-list-item-title>
-      <v-list-item-subtitle>{{ authStore.user?.role }}</v-list-item-subtitle>
+      <v-list-item-title class="text-h6">{{ authStore.user?.student?.name || "Administrador" }}</v-list-item-title>
+      <v-list-item-subtitle>{{ authStore.role === 'student' ? 'estudiante' : 'administrador' }}</v-list-item-subtitle>
     </v-list-item>
 
     <v-divider class="my-2"></v-divider>

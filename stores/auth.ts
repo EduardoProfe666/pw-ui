@@ -5,12 +5,14 @@ import type LoginInDto from '~/services/auth/dto/in/login.in.dto';
 import type UserWithStudentOutDto from '~/services/users/dto/out/user-with-student.out.dto';
 import {extractClaimsFromToken} from "~/services/utils/jwt.service";
 import type ChangePasswordInDto from "~/services/auth/dto/in/change-password.in.dto";
+import {getStudentById} from "~/services/students/students.service";
 
 interface AuthState {
   user: UserWithStudentOutDto | null;
   role: string | null;
   username: string | null,
   token: string | null;
+  avatar: string | null;
   isAuthenticated: boolean;
   resetPasswordEmail: string | null;
   resetPasswordToken: string | null;
@@ -21,6 +23,7 @@ export const useAuthStore = defineStore('auth', {
     user: null,
     role: null,
     username: null,
+    avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
     token: null,
     isAuthenticated: false,
     resetPasswordEmail: null,
@@ -50,6 +53,7 @@ export const useAuthStore = defineStore('auth', {
 
         if(this.role !== 'admin'){
           this.user = await getCurrentUser();
+          this.avatar = (await getStudentById(this.user.student.id)).avatar;
         }
       } catch (error) {
         console.error('Error during login:', error);
@@ -61,6 +65,7 @@ export const useAuthStore = defineStore('auth', {
       this.user = null;
       this.token = null;
       this.username = null;
+      this.avatar = null;
       this.isAuthenticated = false;
       this.role = null;
       navigateTo('/login');

@@ -35,7 +35,7 @@
                   Olvidó su contraseña?
                 </NuxtLink>
               </div>
-              
+
               <v-alert
                   v-if="error"
                   type="error"
