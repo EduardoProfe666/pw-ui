@@ -221,6 +221,9 @@
 
 <script setup lang="ts">
 import { useUsersStore, type User } from '~/stores/users'
+definePageMeta({
+  middleware: ['auth']
+})
 
 const usersStore = useUsersStore()
 const form = ref()

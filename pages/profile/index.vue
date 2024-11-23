@@ -140,6 +140,9 @@
 
 <script setup lang="ts">
 import {getRandomDate} from "~/services/utils/dates.service";
+definePageMeta({
+  middleware: ['auth']
+})
 
 const authStore = useAuthStore()
 const activeTab = ref('overview')

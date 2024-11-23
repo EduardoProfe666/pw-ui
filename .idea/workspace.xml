@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="80f14e45-b794-4184-ab03-08913acf5a5e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/stores/reports.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/layouts/default.vue" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/default.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/profile/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/profile/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/profile/settings.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/profile/settings.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/students/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/students/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/users/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/users/index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +105,7 @@
       <workItem from="1730763420737" duration="3414000" />
       <workItem from="1730770865847" duration="2098000" />
       <workItem from="1732221196803" duration="9769000" />
-      <workItem from="1732327298702" duration="26404000" />
+      <workItem from="1732327298702" duration="28090000" />
     </task>
     <servers />
   </component>

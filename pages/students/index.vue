@@ -442,6 +442,9 @@
 
 <script setup lang="ts">
 import { useStudentsStore, type Student, type Grade } from '~/stores/students'
+definePageMeta({
+  middleware: ['auth']
+})
 
 const studentsStore = useStudentsStore()
 const form = ref()

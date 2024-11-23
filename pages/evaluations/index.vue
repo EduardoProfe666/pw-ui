@@ -242,6 +242,9 @@
 
 <script setup lang="ts">
 import { useEvaluationsStore, type Evaluation } from '~/stores/evaluations'
+definePageMeta({
+  middleware: ['auth']
+})
 
 const evaluationsStore = useEvaluationsStore()
 const form = ref()

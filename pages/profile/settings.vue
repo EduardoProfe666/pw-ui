@@ -179,6 +179,9 @@
 import {ref} from 'vue';
 import {useAuthStore} from '~/stores/auth';
 import type {VForm} from "vuetify/components";
+definePageMeta({
+  middleware: ['auth']
+})
 
 const authStore = useAuthStore();
 
