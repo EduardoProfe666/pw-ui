@@ -59,7 +59,7 @@
       <template v-if="isAdmin">
         <v-list-item to="/users" prepend-icon="mdi-account-group" title="Usuarios" rounded="lg" />
         <v-list-item to="/students" prepend-icon="mdi-school" title="Estudiantes" rounded="lg" />
-        <v-list-item to="/evaluations" prepend-icon="mdi-clipboard-text" title="Evaluaciones" rounded="lg" />
+        <v-list-item to="/assessments" prepend-icon="mdi-clipboard-text" title="Evaluaciones" rounded="lg" />
       </template>
     </v-list>
   </v-navigation-drawer>
