@@ -59,7 +59,6 @@ export const useAssessmentsStore = defineStore('assessments', {
 
     async createAssessment(data: AssessmentInDto) {
       try {
-        console.log(1)
         this.loading = true;
         const newAssessment = await createAssessment(data);
         this.assessments.push(newAssessment);

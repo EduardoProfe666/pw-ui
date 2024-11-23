@@ -1,14 +1,26 @@
 import { defineStore } from 'pinia'
 import { format } from 'date-fns'
+import {
+  createAssessment,
+  deleteAssessment,
+  getAllAssessments,
+  updateAssessment
+} from "~/services/assessments/assessments.service";
+import {getAllStudents} from "~/services/students/students.service";
+import {createUser, deleteUser, getAllUsers, updateUser} from "~/services/users/users.service";
+import type AssessmentInDto from "~/services/assessments/dto/in/assessment.in.dto";
+import type UserInDto from "~/services/users/dto/in/user.in.dto";
 
 export interface User {
   id: number
   name: string
   email: string
-  role: 'admin' | 'student'
-  status: 'active' | 'inactive'
+  username: string
+  fullName: string
   avatar?: string
-  createdAt: string
+  listNumber: number
+  isRepeater: boolean
+  isCarryForward: boolean
 }
 
 interface UsersState {
@@ -22,26 +34,7 @@ interface UsersState {
 
 export const useUsersStore = defineStore('users', {
   state: (): UsersState => ({
-    users: [
-      {
-        id: 1,
-        name: 'John Doe',
-        email: 'john@example.com',
-        role: 'admin',
-        status: 'active',
-        avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
-        createdAt: '2024-03-15T10:00:00Z'
-      },
-      {
-        id: 2,
-        name: 'Jane Smith',
-        email: 'jane@example.com',
-        role: 'student',
-        status: 'active',
-        avatar: 'https://cdn.vuetifyjs.com/images/jane.jpg',
-        createdAt: '2024-03-14T15:30:00Z'
-      }
-    ],
+    users: [],
     loading: false,
     error: null,
     selectedUser: null,
@@ -52,13 +45,33 @@ export const useUsersStore = defineStore('users', {
   getters: {
     formattedUsers: (state) => state.users.map(user => ({
       ...user,
-      formattedDate: format(new Date(user.createdAt), 'PPP'),
-      statusColor: user.status === 'active' ? 'success' : 'error',
-      roleColor: user.role === 'admin' ? 'primary' : 'info'
     }))
   },
 
   actions: {
+    async fetchUsers() {
+      this.loading = true;
+      try {
+        const u = await getAllUsers();
+        const est = await getAllStudents();
+        this.users = u.map(x => ({
+          id: x.id,
+          username: x.username,
+          email: x.email,
+          listNumber: est.find(y => y.username === x.username)?.listNumber || 0,
+          isRepeater: est.find(y => y.username === x.username)?.isRepeater || false,
+          isCarryForward: est.find(y => y.username === x.username)?.isCarryForward || false,
+          name: est.find(y => y.username === x.username)?.name || "Nombre",
+          fullName: est.find(y => y.username === x.username)?.fullName || "Nombre Completo",
+          avatar: est.find(y => y.username === x.username)?.avatar || "https://cdn.vuetifyjs.com/images/john.jpg",
+        }));
+      } catch (error) {
+        this.error = 'Error al cargar los usuarios';
+      } finally {
+        this.loading = false;
+      }
+    },
+
     setSelectedUser(user: User | null) {
       this.selectedUser = user
     },
@@ -74,70 +87,49 @@ export const useUsersStore = defineStore('users', {
       this.selectedUser = null
     },
 
-    async createUser(userData: Partial<User>) {
+    async createUser(data: UserInDto) {
       try {
-        this.loading = true
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        
-        const newUser: User = {
-          id: this.users.length + 1,
-          name: userData.name!,
-          email: userData.email!,
-          role: userData.role!,
-          status: 'active',
-          createdAt: new Date().toISOString(),
-          avatar: `https://cdn.vuetifyjs.com/images/avatar/${Math.floor(Math.random() * 6) + 1}.jpg`
-        }
-        
-        this.users.push(newUser)
-        this.closeDialog()
+        this.loading = true;
+        await createUser(data);
+        await this.fetchUsers();
+        this.closeDialog();
       } catch (error) {
-        this.error = 'Failed to create user'
-        throw error
+        this.error = 'Error al crear el usuario';
       } finally {
-        this.loading = false
+        this.loading = false;
       }
     },
 
-    async updateUser(userData: Partial<User>) {
+    async updateUser(data: UserInDto) {
+      if (!this.selectedUser) return;
+
       try {
-        this.loading = true
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        
-        const index = this.users.findIndex(u => u.id === this.selectedUser?.id)
-        if (index !== -1) {
-          this.users[index] = {
-            ...this.users[index],
-            ...userData
-          }
-        }
-        
-        this.closeDialog()
+        this.loading = true;
+        await updateUser(this.selectedUser.id, data);
+
+        await this.fetchUsers();
+
+        this.closeDialog();
       } catch (error) {
-        this.error = 'Failed to update user'
-        throw error
+        this.error = 'Error al actualizar el usuario';
       } finally {
-        this.loading = false
+        this.loading = false;
       }
     },
 
     async deleteUser(id: number) {
       try {
-        this.loading = true
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        
-        const index = this.users.findIndex(u => u.id === id)
+        this.loading = true;
+        await deleteUser(id);
+
+        const index = this.users.findIndex(e => e.id === id);
         if (index !== -1) {
-          this.users.splice(index, 1)
+          this.users.splice(index, 1);
         }
       } catch (error) {
-        this.error = 'Failed to delete user'
-        throw error
+        this.error = 'Error al eliminar el usuario';
       } finally {
-        this.loading = false
+        this.loading = false;
       }
     }
   }

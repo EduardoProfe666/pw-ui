@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="80f14e45-b794-4184-ab03-08913acf5a5e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AppNavbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/AppNavbar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/evaluations/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/assessments/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stores/evaluations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stores/assessments.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/users/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/users/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stores/assessments.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stores/assessments.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stores/users.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stores/users.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +101,7 @@
       <workItem from="1730763420737" duration="3414000" />
       <workItem from="1730770865847" duration="2098000" />
       <workItem from="1732221196803" duration="9769000" />
-      <workItem from="1732327298702" duration="38716000" />
+      <workItem from="1732327298702" duration="42556000" />
     </task>
     <servers />
   </component>
