@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="80f14e45-b794-4184-ab03-08913acf5a5e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/services/utils/dates.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AppNavbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/AppNavbar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stores/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stores/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/profile/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/profile/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/profile/settings.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/profile/settings.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +18,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="Vue Options API Component" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -101,7 +101,7 @@
       <workItem from="1730763420737" duration="3414000" />
       <workItem from="1730770865847" duration="2098000" />
       <workItem from="1732221196803" duration="9769000" />
-      <workItem from="1732327298702" duration="17429000" />
+      <workItem from="1732327298702" duration="26141000" />
     </task>
     <servers />
   </component>
