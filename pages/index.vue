@@ -57,7 +57,7 @@
         </v-card-text>
       </v-card>
 
-      <v-card class="mt-6">
+      <v-card class="mt-6" v-if="authStore.isStudent">
         <v-card-title class="d-flex align-center">
           Mis Notas
           <v-spacer></v-spacer>
