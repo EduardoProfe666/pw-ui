@@ -9,29 +9,29 @@
           
           <v-card-text class="text-center">
             <p v-if="!isValidToken" class="text-body-1 text-medium-emphasis mb-4">
-              Invalid or expired reset token. Please request a new password reset link.
+              Token de restablecimiento Inválido o Expirado. Por favor acceda nuevamente al apartado Olvido de Contraseña.
             </p>
 
             <template v-else>
               <p class="text-body-1 text-medium-emphasis mb-4">
-                Enter your new password below.
+                Ingrese su nueva contraseña a continuación.
               </p>
 
               <v-form @submit.prevent="handleSubmit" ref="form">
                 <v-text-field
                   v-model="password"
-                  label="New Password"
+                  label="Nueva Contraseña"
                   prepend-inner-icon="mdi-lock"
                   :type="showPassword ? 'text' : 'password'"
                   :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   @click:append-inner="showPassword = !showPassword"
                   required
                   :rules="[
-                    v => !!v || 'Password is required',
-                    v => v.length >= 8 || 'Password must be at least 8 characters',
-                    v => /[A-Z]/.test(v) || 'Must contain at least one uppercase letter',
-                    v => /[a-z]/.test(v) || 'Must contain at least one lowercase letter',
-                    v => /[0-9]/.test(v) || 'Must contain at least one number'
+                    v => !!v || 'La contraseña es requerida',
+                    v => v.length >= 8 || 'Debe contener al menos 8 caracteres',
+                    v => /[A-Z]/.test(v) || 'Debe contener al menos una letra mayúscula',
+                    v => /(?=.*\W)/.test(v) || 'Debe contener al menos un caracter especial',
+                    v => /[0-9]/.test(v) || 'Debe contener al menos un número'
                   ]"
                   :loading="loading"
                   :disabled="loading"
@@ -39,15 +39,15 @@
 
                 <v-text-field
                   v-model="confirmPassword"
-                  label="Confirm Password"
+                  label="Confirmar Contraseña"
                   prepend-inner-icon="mdi-lock-check"
                   :type="showConfirmPassword ? 'text' : 'password'"
                   :append-inner-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   @click:append-inner="showConfirmPassword = !showConfirmPassword"
                   required
                   :rules="[
-                    v => !!v || 'Please confirm your password',
-                    v => v === password || 'Passwords must match'
+                    v => !!v || 'Por favor, confirme su contraseña',
+                    v => v === password || 'Contraseñas deben coincidir'
                   ]"
                   :loading="loading"
                   :disabled="loading"
@@ -68,7 +68,7 @@
                   variant="tonal"
                   class="mb-4"
                 >
-                  Your password has been successfully reset.
+                  Su contraseña ha sido restablecida con éxito.
                 </v-alert>
 
                 <v-btn
@@ -79,7 +79,7 @@
                   :loading="loading"
                   class="mt-2"
                 >
-                  Reset Password
+                  Restablecer Contraseña
                 </v-btn>
               </v-form>
             </template>
@@ -87,7 +87,7 @@
             <div class="mt-4">
               <NuxtLink to="/login" class="text-decoration-none">
                 <v-btn variant="text" block>
-                  Back to Login
+                  Regresar al login
                 </v-btn>
               </NuxtLink>
             </div>
@@ -141,11 +141,8 @@ const handleSubmit = async () => {
     error.value = ''
     await authStore.resetPassword(token.value, password.value)
     success.value = true
-    setTimeout(() => {
-      router.push('/login')
-    }, 2000)
   } catch (err) {
-    error.value = 'Failed to reset password. Please try again.'
+    error.value = 'Falló el restablecimiento. Por favor, intente más tarde.'
   } finally {
     loading.value = false
   }

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h1 class="text-2xl font-bold mb-6">Dashboard</h1>
+    <h1 class="text-2xl font-bold mb-6">Inicio</h1>
     
     <v-row>
       <v-col cols="12" sm="6" md="3">
         <v-card>
           <v-card-text>
-            <div class="text-h5 mb-2">Total Students</div>
+            <div class="text-h5 mb-2">Total de Estudiantes</div>
             <div class="text-h4">156</div>
           </v-card-text>
         </v-card>
@@ -15,8 +15,8 @@
       <v-col cols="12" sm="6" md="3">
         <v-card>
           <v-card-text>
-            <div class="text-h5 mb-2">Average Grade</div>
-            <div class="text-h4">8.5</div>
+            <div class="text-h5 mb-2">Nota Promedio</div>
+            <div class="text-h4">5</div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -24,10 +24,10 @@
 
     <v-card class="mt-6">
       <v-card-title class="d-flex align-center">
-        Class Ranking
+        Ranking del Aula
         <v-spacer></v-spacer>
         <v-btn color="primary" prepend-icon="mdi-download">
-          Export
+          Exportar
         </v-btn>
       </v-card-title>
 
@@ -48,10 +48,10 @@ definePageMeta({
 })
 
 const headers = [
-  { title: 'Rank', key: 'rank' },
-  { title: 'Student', key: 'name' },
-  { title: 'Average Grade', key: 'average' },
-  { title: 'Performance', key: 'performance' }
+  { title: 'Pos.', key: 'rank' },
+  { title: 'Estudiante', key: 'name' },
+  { title: 'Nota Promedio', key: 'average' },
+  { title: 'Rendimiento', key: 'performance' }
 ]
 
 const students = [

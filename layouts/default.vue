@@ -1,7 +1,7 @@
 <template>
   <div>
-    <AppNavbar v-if="isAuthenticated" />
-    <v-main>
+    <AppNavbar v-if="shouldShowNavbar" />
+    <v-main fluid>
       <v-container fluid>
         <slot />
       </v-container>
@@ -11,5 +11,14 @@
 
 <script setup lang="ts">
 const authStore = useAuthStore()
-const isAuthenticated = computed(() => authStore.isAuthenticated)
+const route = useRoute();
+const router = useRouter();
+const hiddenRoutes = ['/login', '/forgot-password', '/reset-password', '/403'];
+
+if(!authStore.isAuthenticated && !hiddenRoutes.includes(route.path)) {
+  router.push('/login');
+}
+const shouldShowNavbar = computed(() => {
+  return authStore.isAuthenticated && !hiddenRoutes.includes(route.path);
+});
 </script>

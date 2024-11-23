@@ -1,25 +1,25 @@
 <template>
   <v-container class="fill-height">
-    <v-row justify="center">
+    <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6" lg="4">
         <v-card class="elevation-12">
           <v-card-title class="text-center py-4">
-            <h1 class="text-h5">Welcome Back</h1>
+            <h1 class="text-h5 font-weight-medium">Bienvenido Nuevamente</h1>
           </v-card-title>
-          
+
           <v-card-text>
             <v-form @submit.prevent="handleLogin">
               <v-text-field
                 v-model="email"
-                label="Email"
-                prepend-inner-icon="mdi-email"
-                type="email"
+                label="Nombre de Usuario"
+                prepend-inner-icon="mdi-account"
+                type="text"
                 required
               ></v-text-field>
 
               <v-text-field
                 v-model="password"
-                label="Password"
+                label="Contraseña"
                 prepend-inner-icon="mdi-lock"
                 :type="showPassword ? 'text' : 'password'"
                 :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -28,9 +28,9 @@
               ></v-text-field>
 
               <div class="d-flex justify-space-between align-center mt-2">
-                <v-checkbox label="Remember me" hide-details></v-checkbox>
-                <NuxtLink to="/forgot-password" class="text-decoration-none">
-                  Forgot Password?
+                <v-checkbox label="Recuérdame" hide-details></v-checkbox>
+                <NuxtLink to="/forgot-password" class="text-decoration-none font-weight-medium">
+                  Olvidó su contraseña?
                 </NuxtLink>
               </div>
 
@@ -41,7 +41,7 @@
                 type="submit"
                 class="mt-6"
               >
-                Sign In
+                Ingresar
               </v-btn>
             </v-form>
           </v-card-text>

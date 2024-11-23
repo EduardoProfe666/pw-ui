@@ -25,6 +25,8 @@ export const useAuthStore = defineStore('auth', {
     resetPasswordToken: null
   }),
 
+  persist: true,
+
   getters: {
     isAdmin: (state) => state.user?.role === 'admin',
     isStudent: (state) => state.user?.role === 'student'
