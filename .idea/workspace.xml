@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="80f14e45-b794-4184-ab03-08913acf5a5e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/students/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/students/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/users/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/users/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stores/assessments.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stores/assessments.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stores/users.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stores/users.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stores/students.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stores/students.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,30 +34,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.auth.ts.executor": "Run",
-    "Node.js.user-with-student.out.dto.ts.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/eduardoag/Documents/GitHub/pw-ui/services/reports/dto",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "pnpm",
-    "npm.dev.executor": "Run",
-    "ts.external.directory.path": "C:\\Users\\eduardoag\\Documents\\GitHub\\pw-ui\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.auth.ts.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.user-with-student.out.dto.ts.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/eduardoag/Documents/GitHub/pw-ui/services/reports/dto&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\eduardoag\\Documents\\GitHub\\pw-ui\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "vue.recent.templates": [
-      "Vue Options API Component"
+  &quot;keyToStringList&quot;: {
+    &quot;vue.recent.templates&quot;: [
+      &quot;Vue Options API Component&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\eduardoag\Documents\GitHub\pw-ui\services\reports\dto" />
@@ -101,7 +101,7 @@
       <workItem from="1730763420737" duration="3414000" />
       <workItem from="1730770865847" duration="2098000" />
       <workItem from="1732221196803" duration="9769000" />
-      <workItem from="1732327298702" duration="42556000" />
+      <workItem from="1732327298702" duration="54698000" />
     </task>
     <servers />
   </component>

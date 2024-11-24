@@ -9,7 +9,7 @@
             prepend-icon="mdi-plus"
             @click="usersStore.openDialog('create')"
         >
-          Añadir
+          Agregar
         </v-btn>
       </v-card-title>
 

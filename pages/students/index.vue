@@ -2,22 +2,16 @@
   <div>
     <v-card>
       <v-card-title class="d-flex align-center pa-4">
-        <h1 class="text-h5 font-weight-bold">Students Management</h1>
+        <h1 class="text-h5 font-weight-bold">Gestión de estudiantes</h1>
         <v-spacer></v-spacer>
         <v-btn
           color="success"
           class="mr-2"
           prepend-icon="mdi-microsoft-excel"
-          @click="studentsStore.exportStudentsToExcel"
+          :loading="loadingStudentsExport"
+          @click="exportStudents"
         >
-          Export to Excel
-        </v-btn>
-        <v-btn
-          color="primary"
-          prepend-icon="mdi-plus"
-          @click="studentsStore.openDialog('create')"
-        >
-          Add Student
+          Exportar a Excel
         </v-btn>
       </v-card-title>
 
@@ -27,32 +21,12 @@
             <v-text-field
               v-model="search"
               prepend-inner-icon="mdi-magnify"
-              label="Search"
+              label="Buscar"
               single-line
               hide-details
               variant="outlined"
               density="comfortable"
             ></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="4">
-            <v-select
-              v-model="gradeFilter"
-              :items="['All Grades', '9th Grade', '10th Grade', '11th Grade', '12th Grade']"
-              label="Grade"
-              variant="outlined"
-              density="comfortable"
-              hide-details
-            ></v-select>
-          </v-col>
-          <v-col cols="12" sm="4">
-            <v-select
-              v-model="statusFilter"
-              :items="['All Status', 'active', 'inactive']"
-              label="Status"
-              variant="outlined"
-              density="comfortable"
-              hide-details
-            ></v-select>
           </v-col>
         </v-row>
 
@@ -70,23 +44,16 @@
             </v-avatar>
           </template>
 
-          <template v-slot:item.status="{ item }">
-            <v-chip
-              :color="item.statusColor"
-              size="small"
-              class="text-uppercase"
-            >
-              {{ item.status }}
-            </v-chip>
+          <template v-slot:item.isRecognized="{ item }">
+            {{item.isRecognized ? '✅' : '❌'}}
           </template>
 
-          <template v-slot:item.averageGrade="{ item }">
-            <v-chip
-              :color="getGradeColor(item.averageGrade)"
-              size="small"
-            >
-              {{ item.averageGrade }}%
-            </v-chip>
+          <template v-slot:item.isCarryForward="{ item }">
+            {{item.isCarryForward ? '✅' : '❌'}}
+          </template>
+
+          <template v-slot:item.isRepeater="{ item }">
+            {{item.isRepeater ? '✅' : '❌'}}
           </template>
 
           <template v-slot:item.actions="{ item }">
@@ -137,76 +104,111 @@
 
         <v-card-text>
           <v-form @submit.prevent="handleSubmit" ref="form">
-            <v-row>
+            <v-row class="border-t">
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="formData.name"
-                  label="Name"
+                  label="Nombre"
                   required
-                  :rules="[v => !!v || 'Name is required']"
+                  :rules="[v => !!v || 'Nombre es requerido']"
                 ></v-text-field>
               </v-col>
 
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="formData.email"
-                  label="Email"
-                  type="email"
-                  required
-                  :rules="[
-                    v => !!v || 'Email is required',
-                    v => /.+@.+\..+/.test(v) || 'Email must be valid'
-                  ]"
+                    v-model="formData.fullName"
+                    label="Nombre Completo"
+                    required
+                    :rules="[v => !!v || 'Nombre Completo es requerido']"
                 ></v-text-field>
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-radio-group
+                    v-model="formData.isRepeater"
+                    label="Repitente"
+                    required
+                    inline
+                >
+                  <v-radio
+                      :value="true"
+                      label="Sí"
+                  ></v-radio>
+                  <v-radio
+                      :value="false"
+                      label="No"
+                  ></v-radio>
+                </v-radio-group>
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-radio-group
+                    v-model="formData.isCarryForward"
+                    label="Arrastre"
+                    required
+                    inline
+                >
+                  <v-radio
+                      :value="true"
+                      label="Sí"
+                  ></v-radio>
+                  <v-radio
+                      :value="false"
+                      label="No"
+                  ></v-radio>
+                </v-radio-group>
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-radio-group
+                    v-model="formData.isRecognized"
+                    label="Convalidado"
+                    required
+                    inline
+                >
+                  <v-radio
+                      :value="true"
+                      label="Sí"
+                  ></v-radio>
+                  <v-radio
+                      :value="false"
+                      label="No"
+                  ></v-radio>
+                </v-radio-group>
               </v-col>
 
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="formData.studentId"
-                  label="Student ID"
-                  required
-                  :rules="[v => !!v || 'Student ID is required']"
+                    v-model="formData.listNumber"
+                    label="Número de lista"
+                    required
+                    type="number"
+                    :rules="[
+                      v => !!v || 'Número de lista es requerido',
+                      v => Number.isInteger(Number(v)) || 'Debe ser un número entero',
+                      v => Number(v) > 0 || 'Debe ser mayor que 0'
+                    ]"
                 ></v-text-field>
-              </v-col>
-
-              <v-col cols="12" sm="6">
-                <v-select
-                  v-model="formData.grade"
-                  :items="['9th Grade', '10th Grade', '11th Grade', '12th Grade']"
-                  label="Grade"
-                  required
-                  :rules="[v => !!v || 'Grade is required']"
-                ></v-select>
-              </v-col>
-
-              <v-col cols="12" sm="6">
-                <v-select
-                  v-model="formData.status"
-                  :items="['active', 'inactive']"
-                  label="Status"
-                  required
-                  :rules="[v => !!v || 'Status is required']"
-                ></v-select>
               </v-col>
             </v-row>
           </v-form>
         </v-card-text>
 
-        <v-card-actions class="pa-4">
+        <v-card-actions class="pa-4 border-t">
           <v-spacer></v-spacer>
           <v-btn
             color="grey-darken-1"
             variant="text"
             @click="studentsStore.closeDialog"
           >
-            Cancel
+            Cancelar
           </v-btn>
           <v-btn
             color="primary"
             @click="handleSubmit"
             :loading="studentsStore.loading"
           >
-            {{ studentsStore.dialogMode === 'create' ? 'Create' : 'Update' }}
+            {{ studentsStore.dialogMode === 'create' ? 'Crear' : 'Actualizar' }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -220,22 +222,24 @@
     >
       <v-card>
         <v-card-title class="d-flex align-center pa-4">
-          <span class="text-h5">{{ studentsStore.selectedStudent?.name }}'s Grades</span>
+          <span class="text-h5">Notas de {{ studentsStore.selectedStudent?.name }}</span>
           <v-spacer></v-spacer>
           <v-btn
             color="success"
             class="mr-2"
-            prepend-icon="mdi-microsoft-excel"
+            prepend-icon="mdi-download"
+            :loading="loadingGradesExport"
             @click="exportSelectedStudentGrades"
           >
-            Export Grades
+            Exportar Notas
           </v-btn>
           <v-btn
             color="primary"
             prepend-icon="mdi-plus"
+            :loading="loadingMissingGrades"
             @click="openAddGradeDialog"
           >
-            Add Grade
+            Agregar Nota
           </v-btn>
         </v-card-title>
 
@@ -245,21 +249,6 @@
             :items="selectedStudentGrades"
             :loading="studentsStore.loading"
           >
-            <template v-slot:item.score="{ item }">
-              {{ item.score }} / {{ item.maxScore }}
-              ({{ ((item.score / item.maxScore) * 100).toFixed(2) }}%)
-            </template>
-
-            <template v-slot:item.status="{ item }">
-              <v-chip
-                :color="item.status === 'graded' ? 'success' : 'warning'"
-                size="small"
-                class="text-uppercase"
-              >
-                {{ item.status }}
-              </v-chip>
-            </template>
-
             <template v-slot:item.actions="{ item }">
               <v-btn
                 icon
@@ -267,6 +256,7 @@
                 color="primary"
                 size="small"
                 class="mr-2"
+                :loading="loadingMissingGrades"
                 @click="openEditGradeDialog(item)"
               >
                 <v-icon>mdi-pencil</v-icon>
@@ -291,7 +281,7 @@
             variant="text"
             @click="studentsStore.closeGradesDialog"
           >
-            Close
+            Cerrar
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -306,71 +296,64 @@
 
         <v-card-text>
           <v-form @submit.prevent="handleGradeSubmit" ref="gradeForm">
-            <v-row>
-              <v-col cols="12">
+            <v-row class="border-t">
+              <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="gradeFormData.evaluationTitle"
-                  label="Evaluation Title"
-                  required
-                  :rules="[v => !!v || 'Evaluation title is required']"
+                    v-model="gradeFormData.grade"
+                    label="Nota"
+                    required
+                    type="number"
+                    :rules="[
+                      v => !!v || 'Nota es requerida',
+                      v => Number.isInteger(Number(v)) || 'Debe ser un número entero',
+                      v => Number(v) >= 2 || 'Debe ser mayor o igual que 2',
+                      v => Number(v) <= 5 || 'Debe ser menor o igual que 5',
+                    ]"
                 ></v-text-field>
               </v-col>
 
-              <v-col cols="12">
+              <v-col cols="12" sm="6">
                 <v-select
-                  v-model="gradeFormData.subject"
-                  :items="['Mathematics', 'Physics', 'Chemistry', 'Biology', 'History', 'Literature']"
-                  label="Subject"
+                  v-model="gradeFormData.assessmentId"
+                  :items="missingGradesList"
+                  label="Evaluación"
                   required
-                  :rules="[v => !!v || 'Subject is required']"
+                  :rules="[v => !!v || 'Evaluación es requerida']"
                 ></v-select>
               </v-col>
 
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model.number="gradeFormData.score"
-                  label="Score"
-                  type="number"
-                  required
-                  :rules="[
-                    v => !!v || 'Score is required',
-                    v => v >= 0 || 'Score must be positive',
-                    v => v <= gradeFormData.maxScore || 'Score cannot exceed maximum'
-                  ]"
-                ></v-text-field>
+              <v-col cols="12">
+                <v-textarea
+                    v-model="gradeFormData.professorNote"
+                    label="Notas del profesor"
+                    required
+                    :rules="[
+                        v => !!v || 'Notas del profesor son requeridas',
+                        v => String(v).length <= 255 || 'El máximo de caracteres es 255'
+                    ]"
+                    rows="4"
+                ></v-textarea>
               </v-col>
 
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model.number="gradeFormData.maxScore"
-                  label="Maximum Score"
-                  type="number"
-                  required
-                  :rules="[
-                    v => !!v || 'Maximum score is required',
-                    v => v > 0 || 'Maximum score must be positive'
-                  ]"
-                ></v-text-field>
-              </v-col>
             </v-row>
           </v-form>
         </v-card-text>
 
-        <v-card-actions class="pa-4">
+        <v-card-actions class="pa-4 border-t">
           <v-spacer></v-spacer>
           <v-btn
             color="grey-darken-1"
             variant="text"
             @click="gradeDialog = false"
           >
-            Cancel
+            Cancelar
           </v-btn>
           <v-btn
             color="primary"
             @click="handleGradeSubmit"
             :loading="studentsStore.loading"
           >
-            {{ selectedGrade ? 'Update' : 'Add' }}
+            {{ selectedGrade ? 'Actualizar' : 'Agregar' }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -380,11 +363,11 @@
     <v-dialog v-model="deleteDialog" max-width="400px">
       <v-card>
         <v-card-title class="text-h5 pa-4">
-          Confirm Delete
+          Confirmar Borrado de Estudiante
         </v-card-title>
 
         <v-card-text>
-          Are you sure you want to delete this student? This action cannot be undone.
+          Estás seguro que quieres borrar este estudiante? Esta acción <strong>NO</strong> puede deshacerse.
         </v-card-text>
 
         <v-card-actions class="pa-4">
@@ -394,14 +377,14 @@
             variant="text"
             @click="deleteDialog = false"
           >
-            Cancel
+            Cancelar
           </v-btn>
           <v-btn
             color="error"
             @click="handleDelete"
             :loading="studentsStore.loading"
           >
-            Delete
+            Borrar
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -411,11 +394,11 @@
     <v-dialog v-model="deleteGradeDialog" max-width="400px">
       <v-card>
         <v-card-title class="text-h5 pa-4">
-          Confirm Delete Grade
+          Confirmar Borrado de Nota
         </v-card-title>
 
         <v-card-text>
-          Are you sure you want to delete this grade? This action cannot be undone.
+          Estás seguro que quieres borrar esta nota?
         </v-card-text>
 
         <v-card-actions class="pa-4">
@@ -425,14 +408,14 @@
             variant="text"
             @click="deleteGradeDialog = false"
           >
-            Cancel
+            Cancelar
           </v-btn>
           <v-btn
             color="error"
             @click="handleDeleteGrade"
             :loading="studentsStore.loading"
           >
-            Delete
+            Borrar
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -441,7 +424,9 @@
 </template>
 
 <script setup lang="ts">
-import { useStudentsStore, type Student, type Grade } from '~/stores/students'
+import {type Grade, type Student, useStudentsStore} from '~/stores/students'
+import type StudentInDto from "~/services/students/dto/in/student.in.dto";
+
 definePageMeta({
   middleware: ['auth']
 })
@@ -450,8 +435,6 @@ const studentsStore = useStudentsStore()
 const form = ref()
 const gradeForm = ref()
 const search = ref('')
-const gradeFilter = ref('All Grades')
-const statusFilter = ref('All Status')
 const deleteDialog = ref(false)
 const deleteGradeDialog = ref(false)
 const gradeDialog = ref(false)
@@ -461,88 +444,53 @@ const selectedGrade = ref<Grade | null>(null)
 
 const headers = [
   { title: 'Avatar', key: 'avatar', sortable: false },
-  { title: 'Student ID', key: 'studentId', align: 'start' },
-  { title: 'Name', key: 'name' },
-  { title: 'Email', key: 'email' },
-  { title: 'Grade', key: 'grade' },
-  { title: 'Average Grade', key: 'averageGrade' },
-  { title: 'Status', key: 'status' },
-  { title: 'Created At', key: 'formattedDate' },
-  { title: 'Actions', key: 'actions', sortable: false, align: 'end' }
+  { title: 'Nombre', key: 'name', align: 'start' },
+  { title: 'Nombre de Usuario', key: 'username' },
+  { title: 'Nombre Completo', key: 'fullName' },
+  { title: 'No. de lista', key: 'listNumber' },
+  { title: 'Convalidado', key: 'isRecognized' },
+  { title: 'Arrastre', key: 'isCarryForward' },
+  { title: 'Repitente', key: 'isRepeater' },
+  { title: 'Acciones', key: 'actions', sortable: false, align: 'end' }
 ]
 
 const gradeHeaders = [
-  { title: 'Subject', key: 'subject', align: 'start' },
-  { title: 'Evaluation', key: 'evaluationTitle' },
-  { title: 'Score', key: 'score' },
-  { title: 'Status', key: 'status' },
-  { title: 'Date', key: 'createdAt' },
-  { title: 'Actions', key: 'actions', sortable: false, align: 'end' }
+  { title: 'Nota', key: 'grade', align: 'start' },
+  { title: 'Evaluación', key: 'assessmentName' },
+  { title: 'Notas del Profesor', key: 'professorNote' },
+  { title: 'Acciones', key: 'actions', sortable: false, align: 'end' }
 ]
 
 const formData = ref({
   name: '',
-  email: '',
-  studentId: '',
-  grade: '',
-  status: 'active'
+  fullName: '',
+  isRecognized: false,
+  isRepeater: false,
+  isCarryForward: false,
+  listNumber: 0,
 })
 
 const gradeFormData = ref({
-  evaluationTitle: '',
-  subject: '',
-  score: 0,
-  maxScore: 100
+  grade: 2,
+  professorNote: '',
+  assessmentId: 0,
 })
 
 const dialogTitle = computed(() => {
-  return studentsStore.dialogMode === 'create' ? 'Create Student' : 'Edit Student'
+  return studentsStore.dialogMode === 'create' ? 'Crear Estudiante' : 'Actualizar Estudiante'
 })
 
 const gradeDialogTitle = computed(() => {
-  return selectedGrade.value ? 'Edit Grade' : 'Add Grade'
+  return selectedGrade.value ? 'Actualizar Nota' : 'Agregar Nota'
 })
 
 const filteredStudents = computed(() => {
-  let students = studentsStore.formattedStudents
-
-  if (gradeFilter.value !== 'All Grades') {
-    students = students.filter(student => student.grade === gradeFilter.value)
-  }
-
-  if (statusFilter.value !== 'All Status') {
-    students = students.filter(student => student.status === statusFilter.value)
-  }
-
-  return students
+  return studentsStore.formattedStudents
 })
 
 const selectedStudentGrades = computed(() => {
   return studentsStore.selectedStudent?.grades || []
 })
-
-watch(() => studentsStore.selectedStudent, (newStudent) => {
-  if (newStudent && studentsStore.dialogMode === 'edit') {
-    formData.value = { ...newStudent }
-  } else {
-    formData.value = {
-      name: '',
-      email: '',
-      studentId: '',
-      grade: '',
-      status: 'active'
-    }
-  }
-})
-
-const getGradeColor = (grade: string | number) => {
-  if (grade === 'N/A') return 'grey'
-  const numGrade = typeof grade === 'string' ? parseFloat(grade) : grade
-  if (numGrade >= 90) return 'success'
-  if (numGrade >= 80) return 'info'
-  if (numGrade >= 70) return 'warning'
-  return 'error'
-}
 
 const handleSubmit = async () => {
   const { valid } = await form.value.validate()
@@ -550,10 +498,18 @@ const handleSubmit = async () => {
   if (!valid) return
 
   try {
+    const data: StudentInDto = {
+      name: formData.value.name,
+      fullName: formData.value.fullName,
+      isCarryForward: formData.value.isCarryForward,
+      isRecognized: formData.value.isRecognized,
+      isRepeater: formData.value.isRepeater,
+      listNumber: parseInt(formData.value.listNumber),
+    }
     if (studentsStore.dialogMode === 'create') {
-      await studentsStore.createStudent(formData.value)
+      await studentsStore.createStudent(data)
     } else {
-      await studentsStore.updateStudent(formData.value)
+      await studentsStore.updateStudent(data)
     }
   } catch (error) {
     console.error('Error:', error)
@@ -566,16 +522,20 @@ const handleGradeSubmit = async () => {
   if (!valid) return
 
   try {
+    const data: GradeInDto = {
+      grade: parseInt(gradeFormData.value.grade),
+      professorNote: gradeFormData.value.professorNote,
+      assessmentId: gradeFormData.value.assessmentId,
+      studentId: studentsStore.selectedStudent!.id,
+    }
     if (selectedGrade.value) {
       await studentsStore.updateGrade(
-        studentsStore.selectedStudent!.id,
         selectedGrade.value.id,
-        gradeFormData.value
+        data
       )
     } else {
       await studentsStore.addGrade(
-        studentsStore.selectedStudent!.id,
-        gradeFormData.value
+        data
       )
     }
     gradeDialog.value = false
@@ -612,7 +572,6 @@ const handleDeleteGrade = async () => {
   
   try {
     await studentsStore.deleteGrade(
-      studentsStore.selectedStudent.id,
       gradeToDelete.value.id
     )
     deleteGradeDialog.value = false
@@ -621,6 +580,8 @@ const handleDeleteGrade = async () => {
     console.error('Error:', error)
   }
 }
+
+let missingGradesList = []
 
 const openAddGradeDialog = () => {
   selectedGrade.value = null
@@ -631,26 +592,81 @@ const openAddGradeDialog = () => {
 const openEditGradeDialog = (grade: Grade) => {
   selectedGrade.value = grade
   gradeFormData.value = {
-    evaluationTitle: grade.evaluationTitle,
-    subject: grade.subject,
-    score: grade.score,
-    maxScore: grade.maxScore
+    grade: grade.grade,
+    professorNote: grade.professorNote,
+    assessmentId: grade.assessmentId,
+    studentId: studentsStore.selectedStudent!.id,
   }
   gradeDialog.value = true
 }
 
 const resetGradeForm = () => {
   gradeFormData.value = {
-    evaluationTitle: '',
-    subject: '',
-    score: 0,
-    maxScore: 100
+    grade: 2,
+    professorNote: '',
+    assessmentId: undefined,
+    studentId: studentsStore.selectedStudent!.id,
   }
 }
 
-const exportSelectedStudentGrades = () => {
-  if (studentsStore.selectedStudent) {
-    studentsStore.exportGradesToExcel(studentsStore.selectedStudent.id)
+const loadingStudentsExport = ref(false);
+const loadingGradesExport = ref(false);
+const loadingMissingGrades = ref(false);
+
+
+const missingGrades = async () => {
+  loadingMissingGrades.value = true;
+  let m = []
+  try{
+    m = await studentsStore.getMissingGrades();
+  }finally {
+    loadingMissingGrades.value = false;
+  }
+  return m;
+}
+
+watch(() => studentsStore.selectedStudent, (newStudent) => {
+  if (newStudent && studentsStore.dialogMode === 'edit') {
+    formData.value = { ...newStudent }
+  } else {
+    formData.value = {
+      name: '',
+      fullName: '',
+      isRecognized: false,
+      isRepeater: false,
+      isCarryForward: false,
+      listNumber: 0,
+    }
+  }
+
+  if(newStudent){
+    missingGrades().then((res) => {
+      missingGradesList = res;
+    });
+  }
+})
+
+const exportStudents = async () => {
+  loadingStudentsExport.value = true;
+  try{
+    await studentsStore.exportStudentsToPdf();
+  }finally{
+    loadingStudentsExport.value = false;
   }
 }
+
+const exportSelectedStudentGrades = async () => {
+  if (studentsStore.selectedStudent) {
+    loadingGradesExport.value = true;
+    try {
+      await studentsStore.exportGradesToExcel()
+    } finally {
+      loadingGradesExport.value = false;
+    }
+  }
+}
+
+onMounted(async () => {
+  await studentsStore.fetchStudents();
+});
 </script>
